@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roçagem e Poda - Orçamento Rápido</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="header-box">
+            <h2>Roçagem e Poda</h2>
+            <p>Orçamento rápido e automático</p>
+        </div>
+
+        <div class="card">
+            <div class="title">Dados do cliente</div>
+            <input type="text" id="nome" placeholder="Nome">
+            <input type="text" id="telefone" placeholder="Telefone">
+            <input type="text" id="endereco" placeholder="Endereço">
+        </div>
+
+        <div class="card">
+            <div class="title">Detalhes do serviço</div>
+            <select id="tipo" onchange="atualizarPrecoAoMudar()">
+                <option value="Terreno leve">Terreno leve</option>
+                <option value="Terreno médio">Terreno médio</option>
+                <option value="Terreno pesado">Terreno pesado</option>
+            </select>
+
+            <textarea id="descricao" placeholder="Descreva o local"></textarea>
+        </div>
+
+        <div class="card">
+            <div class="title">Resumo do orçamento</div>
+            <p id="valorPreview">Valor: R$ 100</p>
+        </div>
+
+        <button class="btn-pulsando" onclick="processarEEnviar()">🚀 QUERO ORÇAMENTO AGORA</button>
+        <button class="btn-whatsapp" onclick="processarEEnviar()">Solicitar orçamento no WhatsApp</button>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
