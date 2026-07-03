@@ -10,13 +10,12 @@
 
     <div class="container">
         
-        <!-- Cabeçalho Principal -->
         <div class="header-box">
+            <img src="capa.jpeg" alt="Capa Roçagem" style="width: 100%; max-height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;">
             <h2>Roçagem e Poda</h2>
             <p>Orçamento rápido e automático</p>
         </div>
 
-        <!-- Bloco: Dados do Cliente -->
         <div class="card">
             <div class="title">Dados do cliente</div>
             <input type="text" id="nome" placeholder="Nome">
@@ -24,24 +23,23 @@
             <input type="text" id="endereco" placeholder="Endereço">
         </div>
 
-        <!-- Bloco: Detalhes do Serviço -->
         <div class="card">
             <div class="title">Detalhes do serviço</div>
             
-            <label>Tamanho do Terreno:</label>
+            <label style="display:block; margin-bottom: 5px; font-size: 14px;">Tamanho do Terreno:</label>
             <select id="tamanhoTerreno" onchange="atualizarPrecoAoMudar()">
                 <option value="Pequeno (Até 100m²)">Pequeno (Até 100m²)</option>
                 <option value="Médio (Até 300m²)">Médio (Até 300m²)</option>
                 <option value="Grande (Acima de 300m²)">Grande (Acima de 300m²)</option>
             </select>
 
-            <label>Estado da Vegetação:</label>
+            <label style="display:block; margin-bottom: 5px; font-size: 14px;">Estado da Vegetação:</label>
             <select id="estadoMato" onchange="atualizarPrecoAoMudar()">
                 <option value="Mato Baixo">Mato Baixo</option>
                 <option value="Mato Alto">Mato Alto</option>
             </select>
 
-            <label>Necessita de Poda de Árvore?</label>
+            <label style="display:block; margin-bottom: 5px; font-size: 14px;">Necessita de Poda de Árvore?</label>
             <select id="podaArvore" onchange="atualizarPrecoAoMudar()">
                 <option value="Não precisa de poda">Não precisa de poda</option>
                 <option value="Árvore Pequena">Árvore Pequena</option>
@@ -51,13 +49,11 @@
             <textarea id="descricao" placeholder="Descreva detalhes adicionais sobre o local..."></textarea>
         </div>
 
-        <!-- Bloco: Resumo do Orçamento -->
         <div class="card">
             <div class="title">Resumo do orçamento</div>
             <p id="valorPreview">Valor Estimado: R$ 100</p>
         </div>
 
-        <!-- Botões de Envio -->
         <button class="btn-pulsando" onclick="processarEEnviar()">🚀 QUERO ORÇAMENTO AGORA</button>
         <button class="btn-whatsapp" onclick="processarEEnviar()">Solicitar orçamento no WhatsApp</button>
 
