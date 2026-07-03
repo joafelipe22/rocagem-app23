@@ -1,0 +1,107 @@
+/* Configurações Globais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #0f172a; /* Azul escuro de fundo */
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Quadrado Verde Superior */
+.header-box {
+    background-color: #2ecc71;
+    color: #ffffff;
+    text-align: center;
+    padding: 30px 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+.header-box h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+/* Estilo dos Blocos (Cards) */
+.card {
+    background-color: #1e293b; /* Fundo cinza/azul dos cards */
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.card .title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Campos de Entrada (Inputs, Select e Textarea) */
+input[type="text"], select, textarea {
+    width: 100%;
+    padding: 12px;
+    background-color: #334155;
+    border: 1px solid #475569;
+    color: #ffffff;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    outline: none;
+}
+
+input:last-child, textarea {
+    margin-bottom: 0;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+/* Estilo do Preço */
+#valorPreview {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Botões */
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #27ae60;
+}
+
+/* Efeito de Pulsar no primeiro botão */
+.btn-pulsando {
+    animation: pulsar 2s infinite;
+}
+
+@keyframes pulsar {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
