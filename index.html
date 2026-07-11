@@ -32,16 +32,54 @@
         h2 {
             color: var(--primary);
             text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
             margin-bottom: 30px;
+            font-size: 14px;
         }
 
         .section-title {
             font-size: 16px;
             font-weight: bold;
-            margin: 20px 0 10px 0;
+            margin: 25px 0 12px 0;
             color: var(--secondary);
+            border-bottom: 1px solid #E0E0E0;
+            padding-bottom: 5px;
         }
 
+        /* Campos de Entrada de Texto */
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        /* Grid de Opções Visuais */
         .options-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -83,6 +121,37 @@
             transform: scale(1.03);
         }
 
+        /* Área de Upload de Foto */
+        .file-upload-box {
+            border: 2px dashed #2E7D32;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            background: #F9FBF9;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .file-upload-box input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .preview-img {
+            max-width: 100%;
+            height: 150px;
+            object-fit: contain;
+            margin-top: 10px;
+            display: none;
+            border-radius: 8px;
+        }
+
+        /* Botão do WhatsApp Comercial */
         .btn-whatsapp {
             display: flex;
             align-items: center;
@@ -110,10 +179,30 @@
 
 <div class="container">
     <h2>Roçagem e Poda</h2>
-    <p style="text-align: center; color: #666;">Selecione as características do seu terreno para receber um orçamento sob medida no WhatsApp.</p>
+    <p class="subtitle">Preencha os dados e selecione as características para gerar o orçamento.</p>
 
     <form id="orcamentoForm">
-        <div class="section-title">Tamanho do Terreno:</div>
+        
+        <!-- SEÇÃO: DADOS DO CLIENTE -->
+        <div class="section-title">Seus Dados</div>
+        
+        <div class="input-group">
+            <label for="nome">Nome Completo:</label>
+            <input type="text" id="nome" placeholder="Digite seu nome" required>
+        </div>
+
+        <div class="input-group">
+            <label for="telefone">Telefone / WhatsApp:</label>
+            <input type="tel" id="telefone" placeholder="(XX) XXXXX-XXXX" required>
+        </div>
+
+        <div class="input-group">
+            <label for="endereco">Endereço do Terreno:</label>
+            <input type="text" id="endereco" placeholder="Rua, número, bairro e cidade" required>
+        </div>
+
+        <!-- SEÇÃO: CARACTERÍSTICAS -->
+        <div class="section-title">Tamanho do Terreno</div>
         <div class="options-grid">
             <label class="option-card">
                 <input type="radio" name="tamanho" value="Pequeno (Até 100m²)" checked>
@@ -132,7 +221,7 @@
             </label>
         </div>
 
-        <div class="section-title">Estado da Vegetação:</div>
+        <div class="section-title">Estado da Vegetação</div>
         <div class="options-grid">
             <label class="option-card">
                 <input type="radio" name="vegetacao" value="Mato Baixo" checked>
@@ -165,6 +254,14 @@
             </label>
         </div>
 
+        <!-- SEÇÃO: FOTO DO LOCAL -->
+        <div class="section-title">Foto do Local (Opcional)</div>
+        <div class="file-upload-box">
+            <span style="color: var(--primary); font-weight: bold;">📁 Clique aqui para carregar a foto</span>
+            <input type="file" id="fotoLocal" accept="image/*" onchange="previewImage(event)">
+            <img id="imageDisplay" class="preview-img" alt="Pré-visualização">
+        </div>
+
         <button type="button" class="btn-whatsapp" onclick="enviarOrcamento()">
             🚀 QUERO ORÇAMENTO AGORA NO WHATSAPP
         </button>
@@ -172,21 +269,29 @@
 </div>
 
 <script>
+// Mostra a foto na tela assim que o cliente escolhe o arquivo
+function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function(){
+        const output = document.getElementById('imageDisplay');
+        output.src = reader.result;
+        output.style.display = 'block';
+    }
+    reader.readAsDataURL(event.target.files[0]);
+}
+
 function enviarOrcamento() {
+    // Captura dados textuais
+    const nome = document.getElementById('nome').value.trim();
+    const telefoneCliente = document.getElementById('telefone').value.trim();
+    const endereco = document.getElementById('endereco').value.trim();
+
+    // Validação simples obrigatória
+    if(!nome || !telefoneCliente || !endereco) {
+        alert("Por favor, preencha o Nome, Telefone e Endereço para continuar!");
+        return;
+    }
+
     const tamanho = document.querySelector('input[name="tamanho"]:checked').value;
     const vegetacao = document.querySelector('input[name="vegetacao"]:checked').value;
     const poda = document.querySelector('input[name="poda"]:checked').value;
-
-    const numeroWhats = "5521991960469";
-    const texto = `Olá! Gostaria de um orçamento para roçagem de terreno:\n\n• Tamanho: ${tamanho}\n• Vegetação: ${vegetacao}\n• Poda: ${poda}`;
-    
-    // CORREÇÃO: Uso do protocolo https://wa.me/ completo e redirecionamento direto de janela padrão
-    const linkWhats = "https://wa.me/" + numeroWhats + "?text=" + encodeURIComponent(texto);
-
-    // Garante que o navegador vai abrir o link na aba atual caso o bloqueador de pop-ups impeça novas abas
-    window.location.href = linkWhats;
-}
-</script>
-
-</body>
-</html>
