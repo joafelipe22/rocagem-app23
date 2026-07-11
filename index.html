@@ -148,12 +148,14 @@
             border-radius: 8px;
         }
 
+        /* Estilização do link como um botão real clicável nativo */
         .btn-whatsapp {
             display: flex;
             align-items: center;
             justify-content: center;
             background-color: #25D366;
             color: white;
+            text-decoration: none;
             padding: 15px;
             border-radius: 12px;
             font-size: 16px;
@@ -178,13 +180,8 @@
     <h2>Roçagem e Poda</h2>
     <p class="subtitle">Preencha os dados e selecione as características para gerar o orçamento.</p>
 
-    <!-- ALTERAÇÃO ESSENCIAL: Envio nativo configurado direto na tag form -->
-    <form id="orcamentoForm" action="https://whatsapp.com" method="GET" onsubmit="prepararEnvioNativo(event)">
+    <form id="orcamentoForm">
         
-        <!-- Parâmetros obrigatórios que a API do WhatsApp precisa receber -->
-        <input type="hidden" name="phone" value="2121991960469">
-        <input type="hidden" id="textInput" name="text" value="">
-
         <div class="section-title">Seus Dados</div>
         
         <div class="input-group">
@@ -261,10 +258,10 @@
             <img id="imageDisplay" class="preview-img" alt="Pré-visualização">
         </div>
 
-        <!-- O botão agora realiza o Submit nativo do navegador -->
-        <button type="submit" class="btn-whatsapp">
+        <!-- REESTRUTURAÇÃO: Link nativo direto <a> para contornar bloqueadores de celular -->
+        <a id="btnWhatsApp" class="btn-whatsapp" href="#" onclick="abrirConversaWhatsApp(event)">
             🚀 QUERO ORÇAMENTO AGORA NO WHATSAPP
-        </button>
+        </a>
     </form>
 </div>
 
@@ -279,11 +276,17 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files);
 }
 
-function prepararEnvioNativo(event) {
-    // Captura os elementos e valores informados pelo cliente
+function abrirConversaWhatsApp(event) {
     const nome = document.getElementById('nome').value.trim();
     const telefoneCliente = document.getElementById('telefone').value.trim();
     const endereco = document.getElementById('endereco').value.trim();
+
+    // Validação de campos obrigatórios
+    if(!nome || !telefoneCliente || !endereco) {
+        event.preventDefault(); 
+        alert("Por favor, preencha o Nome, Telefone e Endereço para continuar!");
+        return false;
+    }
 
     const tamanho = document.querySelector('input[name="tamanho"]:checked').value;
     const vegetacao = document.querySelector('input[name="vegetacao"]:checked').value;
