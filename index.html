@@ -113,7 +113,6 @@
             display: none;
         }
 
-        /* Cor quando o item é selecionado */
         .option-card:has(input[type="radio"]:checked) {
             border-color: var(--primary);
             background-color: #E8F5E9;
@@ -275,7 +274,6 @@ function previewImage(event) {
 }
 
 function enviarParaWhatsApp(event) {
-    // Impede o formulário de recarregar a página com '#'
     event.preventDefault();
 
     const nome = document.getElementById('nome').value.trim();
@@ -290,3 +288,5 @@ function enviarParaWhatsApp(event) {
     const mensagemTexto = "Novo Pedido de Orçamento de Roçagem:\n\n" +
                           "👤 Cliente: " + nome + "\n" +
                           "📞 Telefone: " + telefoneCliente + "\n" +
+                          "📍 Endereço: " + endereco + "\n\n" +
+                          "⚙️ DETALHES DO SERVIÇO:\n" +
