@@ -148,14 +148,13 @@
             border-radius: 8px;
         }
 
-        /* CORREÇÃO: Estilização do link como um botão real clicável */
+        /* CORREÇÃO: Estilização do botão de envio nativo */
         .btn-whatsapp {
             display: flex;
             align-items: center;
             justify-content: center;
             background-color: #25D366;
             color: white;
-            text-decoration: none;
             padding: 15px;
             border-radius: 12px;
             font-size: 16px;
@@ -166,6 +165,7 @@
             width: 100%;
             cursor: pointer;
             box-sizing: border-box;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
         }
 
         .btn-whatsapp:hover {
@@ -179,8 +179,13 @@
     <h2>Roçagem e Poda</h2>
     <p class="subtitle">Preencha os dados e selecione as características para gerar o orçamento.</p>
 
-    <form id="orcamentoForm">
+    <!-- CORREÇÃO: O formulário agora envia diretamente para o link do WhatsApp comercial -->
+    <form id="orcamentoForm" action="https://whatsapp.com" method="GET" onsubmit="prepararMensagem(event)">
         
+        <!-- Input oculto exigido pela API do WhatsApp -->
+        <input type="hidden" name="phone" value="5521991960469">
+        <input type="hidden" id="textInput" name="text" value="">
+
         <div class="section-title">Seus Dados</div>
         
         <div class="input-group">
@@ -257,10 +262,10 @@
             <img id="imageDisplay" class="preview-img" alt="Pré-visualização">
         </div>
 
-        <!-- CORREÇÃO: Transformado em tag de link direto <a> que ignora bloqueadores de celular -->
-        <a id="btnWhatsApp" class="btn-whatsapp" href="#" onclick="gerarLinkWhatsApp(event)">
+        <!-- CORREÇÃO: Botão do tipo 'submit' nativo que força o envio sem bloqueios -->
+        <button type="submit" class="btn-whatsapp">
             🚀 QUERO ORÇAMENTO AGORA NO WHATSAPP
-        </a>
+        </button>
     </form>
 </div>
 
@@ -275,18 +280,11 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files);
 }
 
-// CORREÇÃO: Função reconstruída para injetar o link no elemento de clique nativo
-function gerarLinkWhatsApp(event) {
+// CORREÇÃO: A função apenas formata a mensagem e deixa o navegador concluir a ação de clique nativa
+function prepararMensagem(event) {
     const nome = document.getElementById('nome').value.trim();
     const telefoneCliente = document.getElementById('telefone').value.trim();
     const endereco = document.getElementById('endereco').value.trim();
 
-    if(!nome || !telefoneCliente || !endereco) {
-        event.preventDefault(); // Impede o redirecionamento
-        alert("Por favor, preencha o Nome, Telefone e Endereço para continuar!");
-        return false;
-    }
-
     const tamanho = document.querySelector('input[name="tamanho"]:checked').value;
     const vegetacao = document.querySelector('input[name="vegetacao"]:checked').value;
-    const poda = document.querySelector('input[name="poda"]:checked').value;
