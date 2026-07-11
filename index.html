@@ -178,8 +178,13 @@
     <h2>Roçagem e Poda</h2>
     <p class="subtitle">Preencha os dados e selecione as características para gerar o orçamento.</p>
 
-    <form id="orcamentoForm" onsubmit="enviarParaWhatsApp(event)">
+    <!-- ALTERAÇÃO ESSENCIAL: Envio nativo configurado direto na tag form -->
+    <form id="orcamentoForm" action="https://whatsapp.com" method="GET" onsubmit="prepararEnvioNativo(event)">
         
+        <!-- Parâmetros obrigatórios que a API do WhatsApp precisa receber -->
+        <input type="hidden" name="phone" value="2121991960469">
+        <input type="hidden" id="textInput" name="text" value="">
+
         <div class="section-title">Seus Dados</div>
         
         <div class="input-group">
@@ -256,6 +261,7 @@
             <img id="imageDisplay" class="preview-img" alt="Pré-visualização">
         </div>
 
+        <!-- O botão agora realiza o Submit nativo do navegador -->
         <button type="submit" class="btn-whatsapp">
             🚀 QUERO ORÇAMENTO AGORA NO WHATSAPP
         </button>
@@ -273,9 +279,8 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files);
 }
 
-function enviarParaWhatsApp(event) {
-    event.preventDefault();
-
+function prepararEnvioNativo(event) {
+    // Captura os elementos e valores informados pelo cliente
     const nome = document.getElementById('nome').value.trim();
     const telefoneCliente = document.getElementById('telefone').value.trim();
     const endereco = document.getElementById('endereco').value.trim();
@@ -283,10 +288,3 @@ function enviarParaWhatsApp(event) {
     const tamanho = document.querySelector('input[name="tamanho"]:checked').value;
     const vegetacao = document.querySelector('input[name="vegetacao"]:checked').value;
     const poda = document.querySelector('input[name="poda"]:checked').value;
-    const temFoto = document.getElementById('fotoLocal').files.length > 0 ? "Sim (Anexada abaixo)" : "Não informada";
-    
-    const mensagemTexto = "Novo Pedido de Orçamento de Roçagem:\n\n" +
-                          "👤 Cliente: " + nome + "\n" +
-                          "📞 Telefone: " + telefoneCliente + "\n" +
-                          "📍 Endereço: " + endereco + "\n\n" +
-                          "⚙️ DETALHES DO SERVIÇO:\n" +
