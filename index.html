@@ -154,6 +154,7 @@
             justify-content: center;
             background-color: #25D366;
             color: white;
+            text-decoration: none;
             padding: 15px;
             border-radius: 12px;
             font-size: 16px;
@@ -178,18 +179,13 @@
     <h2>Roçagem e Poda</h2>
     <p class="subtitle">Preencha os dados e selecione as características para gerar o orçamento.</p>
 
-    <form id="orcamentoForm" onsubmit="enviarDadosWhatsApp(event)">
+    <form id="orcamentoForm" onsubmit="enviarSolicitacao(event)">
         
         <div class="section-title">Seus Dados</div>
         
         <div class="input-group">
             <label for="nome">Nome Completo:</label>
             <input type="text" id="nome" placeholder="Digite seu nome" required>
-        </div>
-
-        <div class="input-group">
-            <label for="telefone">Telefone / WhatsApp:</label>
-            <input type="tel" id="telefone" placeholder="(XX) XXXXX-XXXX" required>
         </div>
 
         <div class="input-group">
@@ -251,7 +247,7 @@
 
         <div class="section-title">Foto do Local (Opcional)</div>
         <div class="file-upload-box">
-            <span style="color: var(--primary); font-weight: bold;">📁 Clique aqui para carregar a foto</span>
+            <span style="color: var(--primary); font-weight: bold;">📁 Clique aqui para selecionar a foto</span>
             <input type="file" id="fotoLocal" accept="image/*" onchange="previewImage(event)">
             <img id="imageDisplay" class="preview-img" alt="Pré-visualização">
         </div>
@@ -273,20 +269,22 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files);
 }
 
-function enviarDadosWhatsApp(event) {
-    // Para o recarregamento padrão do formulário HTML
+function enviarSolicitacao(event) {
     event.preventDefault();
 
     const nome = document.getElementById('nome').value.trim();
-    const telefoneCliente = document.getElementById('telefone').value.trim();
     const endereco = document.getElementById('endereco').value.trim();
-
     const tamanho = document.querySelector('input[name="tamanho"]:checked').value;
     const vegetacao = document.querySelector('input[name="vegetacao"]:checked').value;
     const poda = document.querySelector('input[name="poda"]:checked').value;
-    const temFoto = document.getElementById('fotoLocal').files.length > 0 ? "Sim (Carregada no site)" : "Não adicionada";
+    
+    const temFoto = document.getElementById('fotoLocal').files.length > 0 ? "Sim (Selecionada no formulário)" : "Não anexada";
     
     const mensagemTexto = "Novo Pedido de Orçamento de Roçagem:\n\n" +
                           "👤 Cliente: " + nome + "\n" +
-                          "📞 Telefone: " + telefoneCliente + "\n" +
                           "📍 Endereço: " + endereco + "\n\n" +
+                          "⚙️ DETALHES DO SERVIÇO:\n" +
+                          "• Tamanho: " + tamanho + "\n" +
+                          "• Vegetação: " + vegetacao + "\n" +
+                          "• Poda de Árvore: " + poda + "\n" +
+                          "📸 Foto anexada no site: " + temFoto + "\n\n" +
