@@ -148,7 +148,6 @@
             border-radius: 8px;
         }
 
-        /* Estilização do link como um botão real clicável nativo */
         .btn-whatsapp {
             display: flex;
             align-items: center;
@@ -180,7 +179,7 @@
     <h2>Roçagem e Poda</h2>
     <p class="subtitle">Preencha os dados e selecione as características para gerar o orçamento.</p>
 
-    <form id="orcamentoForm">
+    <form id="orcamentoForm" onsubmit="return false;">
         
         <div class="section-title">Seus Dados</div>
         
@@ -258,14 +257,15 @@
             <img id="imageDisplay" class="preview-img" alt="Pré-visualização">
         </div>
 
-        <!-- REESTRUTURAÇÃO: Link nativo direto <a> para contornar bloqueadores de celular -->
-        <a id="btnWhatsApp" class="btn-whatsapp" href="#" onclick="abrirConversaWhatsApp(event)">
+        <!-- BOTÃO FINAL: Link definitivo direto que força a abertura do aplicativo do WhatsApp -->
+        <a id="btnWhatsApp" class="btn-whatsapp" href="#" onclick="dispararWhatsApp(event)">
             🚀 QUERO ORÇAMENTO AGORA NO WHATSAPP
         </a>
     </form>
 </div>
 
 <script>
+// Exibe a imagem anexada como pré-visualização no formulário do site
 function previewImage(event) {
     const reader = new FileReader();
     reader.onload = function(){
@@ -276,12 +276,13 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files);
 }
 
-function abrirConversaWhatsApp(event) {
+// Junta as informações e força o direcionamento nativo para o chat comercial
+function dispararWhatsApp(event) {
     const nome = document.getElementById('nome').value.trim();
     const telefoneCliente = document.getElementById('telefone').value.trim();
     const endereco = document.getElementById('endereco').value.trim();
 
-    // Validação de campos obrigatórios
+    // Trava e exige o preenchimento caso algum dado essencial falte
     if(!nome || !telefoneCliente || !endereco) {
         event.preventDefault(); 
         alert("Por favor, preencha o Nome, Telefone e Endereço para continuar!");
@@ -290,4 +291,3 @@ function abrirConversaWhatsApp(event) {
 
     const tamanho = document.querySelector('input[name="tamanho"]:checked').value;
     const vegetacao = document.querySelector('input[name="vegetacao"]:checked').value;
-    const poda = document.querySelector('input[name="poda"]:checked').value;
