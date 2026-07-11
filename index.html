@@ -42,7 +42,6 @@
             color: var(--secondary);
         }
 
-        /* Grid de Opções Visuais */
         .options-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -74,19 +73,16 @@
             font-weight: 600;
         }
 
-        /* Esconde o rádio padrão */
         .option-card input[type="radio"] {
             display: none;
         }
 
-        /* Estado Selecionado */
         .option-card:has(input[type="radio"]:checked) {
             border-color: var(--primary);
             background-color: #E8F5E9;
             transform: scale(1.03);
         }
 
-        /* Botão do WhatsApp Comercial */
         .btn-whatsapp {
             display: flex;
             align-items: center;
@@ -117,7 +113,6 @@
     <p style="text-align: center; color: #666;">Selecione as características do seu terreno para receber um orçamento sob medida no WhatsApp.</p>
 
     <form id="orcamentoForm">
-        <!-- Tamanho do Terreno -->
         <div class="section-title">Tamanho do Terreno:</div>
         <div class="options-grid">
             <label class="option-card">
@@ -137,7 +132,6 @@
             </label>
         </div>
 
-        <!-- Estado da Vegetação -->
         <div class="section-title">Estado da Vegetação:</div>
         <div class="options-grid">
             <label class="option-card">
@@ -152,7 +146,6 @@
             </label>
         </div>
 
-        <!-- Necessita de Poda -->
         <div class="section-title">Necessita de Poda de Árvore?</div>
         <div class="options-grid">
             <label class="option-card">
@@ -172,7 +165,6 @@
             </label>
         </div>
 
-        <!-- Botão Dinâmico Enviar para WhatsApp -->
         <button type="button" class="btn-whatsapp" onclick="enviarOrcamento()">
             🚀 QUERO ORÇAMENTO AGORA NO WHATSAPP
         </button>
@@ -181,23 +173,18 @@
 
 <script>
 function enviarOrcamento() {
-    // Captura os valores selecionados de forma automática
     const tamanho = document.querySelector('input[name="tamanho"]:checked').value;
     const vegetacao = document.querySelector('input[name="vegetacao"]:checked').value;
     const poda = document.querySelector('input[name="poda"]:checked').value;
 
-    // Monta a mensagem personalizada limpa de valores
     const numeroWhats = "5521991960469";
-    const texto = `Olá! Gostaria de um orçamento para roçagem de terreno:\n\n` +
-                  `• Tamanho: ${tamanho}\n` +
-                  `• Vegetação: ${vegetacao}\n` +
-                  `• Poda de Árvore: ${poda}`;
+    const texto = `Olá! Gostaria de um orçamento para roçagem de terreno:\n\n• Tamanho: ${tamanho}\n• Vegetação: ${vegetacao}\n• Poda: ${poda}`;
+    
+    // CORREÇÃO: Uso do protocolo https://wa.me/ completo e redirecionamento direto de janela padrão
+    const linkWhats = "https://wa.me/" + numeroWhats + "?text=" + encodeURIComponent(texto);
 
-    // Codifica para formato de link URL
-    const linkWhats = `https://wa.me{numeroWhats}?text=${encodeURIComponent(texto)}`;
-
-    // Redireciona o usuário para o seu WhatsApp Comercial diretamente
-    window.open(linkWhats, '_blank');
+    // Garante que o navegador vai abrir o link na aba atual caso o bloqueador de pop-ups impeça novas abas
+    window.location.href = linkWhats;
 }
 </script>
 
