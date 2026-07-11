@@ -51,7 +51,6 @@
             padding-bottom: 5px;
         }
 
-        /* Campos de Entrada de Texto */
         .input-group {
             margin-bottom: 15px;
         }
@@ -79,7 +78,6 @@
             outline: none;
         }
 
-        /* Grid de Opções Visuais */
         .options-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -121,7 +119,6 @@
             transform: scale(1.03);
         }
 
-        /* Área de Upload de Foto */
         .file-upload-box {
             border: 2px dashed #2E7D32;
             padding: 20px;
@@ -151,7 +148,7 @@
             border-radius: 8px;
         }
 
-        /* Botão do WhatsApp Comercial */
+        /* CORREÇÃO: Estilização do link como um botão real clicável */
         .btn-whatsapp {
             display: flex;
             align-items: center;
@@ -168,6 +165,7 @@
             border: none;
             width: 100%;
             cursor: pointer;
+            box-sizing: border-box;
         }
 
         .btn-whatsapp:hover {
@@ -183,7 +181,6 @@
 
     <form id="orcamentoForm">
         
-        <!-- SEÇÃO: DADOS DO CLIENTE -->
         <div class="section-title">Seus Dados</div>
         
         <div class="input-group">
@@ -201,7 +198,6 @@
             <input type="text" id="endereco" placeholder="Rua, número, bairro e cidade" required>
         </div>
 
-        <!-- SEÇÃO: CARACTERÍSTICAS -->
         <div class="section-title">Tamanho do Terreno</div>
         <div class="options-grid">
             <label class="option-card">
@@ -254,7 +250,6 @@
             </label>
         </div>
 
-        <!-- SEÇÃO: FOTO DO LOCAL -->
         <div class="section-title">Foto do Local (Opcional)</div>
         <div class="file-upload-box">
             <span style="color: var(--primary); font-weight: bold;">📁 Clique aqui para carregar a foto</span>
@@ -262,14 +257,14 @@
             <img id="imageDisplay" class="preview-img" alt="Pré-visualização">
         </div>
 
-        <button type="button" class="btn-whatsapp" onclick="enviarOrcamento()">
+        <!-- CORREÇÃO: Transformado em tag de link direto <a> que ignora bloqueadores de celular -->
+        <a id="btnWhatsApp" class="btn-whatsapp" href="#" onclick="gerarLinkWhatsApp(event)">
             🚀 QUERO ORÇAMENTO AGORA NO WHATSAPP
-        </button>
+        </a>
     </form>
 </div>
 
 <script>
-// Mostra a foto na tela assim que o cliente escolhe o arquivo
 function previewImage(event) {
     const reader = new FileReader();
     reader.onload = function(){
@@ -277,19 +272,19 @@ function previewImage(event) {
         output.src = reader.result;
         output.style.display = 'block';
     }
-    reader.readAsDataURL(event.target.files[0]);
+    reader.readAsDataURL(event.target.files);
 }
 
-function enviarOrcamento() {
-    // Captura dados textuais
+// CORREÇÃO: Função reconstruída para injetar o link no elemento de clique nativo
+function gerarLinkWhatsApp(event) {
     const nome = document.getElementById('nome').value.trim();
     const telefoneCliente = document.getElementById('telefone').value.trim();
     const endereco = document.getElementById('endereco').value.trim();
 
-    // Validação simples obrigatória
     if(!nome || !telefoneCliente || !endereco) {
+        event.preventDefault(); // Impede o redirecionamento
         alert("Por favor, preencha o Nome, Telefone e Endereço para continuar!");
-        return;
+        return false;
     }
 
     const tamanho = document.querySelector('input[name="tamanho"]:checked').value;
