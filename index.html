@@ -113,6 +113,7 @@
             display: none;
         }
 
+        /* Cor quando o item é selecionado */
         .option-card:has(input[type="radio"]:checked) {
             border-color: var(--primary);
             background-color: #E8F5E9;
@@ -148,7 +149,6 @@
             border-radius: 8px;
         }
 
-        /* CORREÇÃO: Estilização do botão de envio nativo */
         .btn-whatsapp {
             display: flex;
             align-items: center;
@@ -179,13 +179,8 @@
     <h2>Roçagem e Poda</h2>
     <p class="subtitle">Preencha os dados e selecione as características para gerar o orçamento.</p>
 
-    <!-- CORREÇÃO: O formulário agora envia diretamente para o link do WhatsApp comercial -->
-    <form id="orcamentoForm" action="https://whatsapp.com" method="GET" onsubmit="prepararMensagem(event)">
+    <form id="orcamentoForm" onsubmit="enviarParaWhatsApp(event)">
         
-        <!-- Input oculto exigido pela API do WhatsApp -->
-        <input type="hidden" name="phone" value="5521991960469">
-        <input type="hidden" id="textInput" name="text" value="">
-
         <div class="section-title">Seus Dados</div>
         
         <div class="input-group">
@@ -207,17 +202,17 @@
         <div class="options-grid">
             <label class="option-card">
                 <input type="radio" name="tamanho" value="Pequeno (Até 100m²)" checked>
-                <img src="https://unsplash.com" alt="Terreno Pequeno">
+                <img src="https://pixabay.com" alt="Terreno Pequeno">
                 <p>Pequeno<br><span style="font-size:11px; color:#777;">Até 100m²</span></p>
             </label>
             <label class="option-card">
                 <input type="radio" name="tamanho" value="Médio (Até 300m²)">
-                <img src="https://unsplash.com" alt="Terreno Médio">
+                <img src="https://pixabay.com" alt="Terreno Médio">
                 <p>Médio<br><span style="font-size:11px; color:#777;">Até 300m²</span></p>
             </label>
             <label class="option-card">
                 <input type="radio" name="tamanho" value="Grande (Acima de 300m²)">
-                <img src="https://unsplash.com" alt="Terreno Grande">
+                <img src="https://pixabay.com" alt="Terreno Grande">
                 <p>Grande<br><span style="font-size:11px; color:#777;">Acima de 300m²</span></p>
             </label>
         </div>
@@ -226,12 +221,12 @@
         <div class="options-grid">
             <label class="option-card">
                 <input type="radio" name="vegetacao" value="Mato Baixo" checked>
-                <img src="https://unsplash.com" alt="Mato Baixo">
+                <img src="https://pixabay.com" alt="Mato Baixo">
                 <p>Mato Baixo</p>
             </label>
             <label class="option-card">
                 <input type="radio" name="vegetacao" value="Mato Alto">
-                <img src="https://unsplash.com" alt="Mato Alto">
+                <img src="https://pixabay.com" alt="Mato Alto">
                 <p>Mato Alto</p>
             </label>
         </div>
@@ -240,17 +235,17 @@
         <div class="options-grid">
             <label class="option-card">
                 <input type="radio" name="poda" value="Não precisa de poda" checked>
-                <img src="https://unsplash.com" alt="Sem Poda">
+                <img src="https://pixabay.com" alt="Sem Poda">
                 <p>Não Precisa</p>
             </label>
             <label class="option-card">
                 <input type="radio" name="poda" value="Árvore Pequena">
-                <img src="https://unsplash.com" alt="Árvore Pequena">
+                <img src="https://pixabay.com" alt="Árvore Pequena">
                 <p>Árvore Pequena</p>
             </label>
             <label class="option-card">
                 <input type="radio" name="poda" value="Árvore Grande">
-                <img src="https://unsplash.com" alt="Árvore Grande">
+                <img src="https://pixabay.com" alt="Árvore Grande">
                 <p>Árvore Grande</p>
             </label>
         </div>
@@ -262,7 +257,6 @@
             <img id="imageDisplay" class="preview-img" alt="Pré-visualização">
         </div>
 
-        <!-- CORREÇÃO: Botão do tipo 'submit' nativo que força o envio sem bloqueios -->
         <button type="submit" class="btn-whatsapp">
             🚀 QUERO ORÇAMENTO AGORA NO WHATSAPP
         </button>
@@ -280,11 +274,19 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files);
 }
 
-// CORREÇÃO: A função apenas formata a mensagem e deixa o navegador concluir a ação de clique nativa
-function prepararMensagem(event) {
+function enviarParaWhatsApp(event) {
+    // Impede o formulário de recarregar a página com '#'
+    event.preventDefault();
+
     const nome = document.getElementById('nome').value.trim();
     const telefoneCliente = document.getElementById('telefone').value.trim();
     const endereco = document.getElementById('endereco').value.trim();
 
     const tamanho = document.querySelector('input[name="tamanho"]:checked').value;
     const vegetacao = document.querySelector('input[name="vegetacao"]:checked').value;
+    const poda = document.querySelector('input[name="poda"]:checked').value;
+    const temFoto = document.getElementById('fotoLocal').files.length > 0 ? "Sim (Anexada abaixo)" : "Não informada";
+    
+    const mensagemTexto = "Novo Pedido de Orçamento de Roçagem:\n\n" +
+                          "👤 Cliente: " + nome + "\n" +
+                          "📞 Telefone: " + telefoneCliente + "\n" +
